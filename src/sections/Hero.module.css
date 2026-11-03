@@ -5,7 +5,7 @@
   flex-direction: column;
   justify-content: center;
   min-height: 100vh;
-  padding-block: calc(var(--header-h) + 56px) 64px;
+  padding-block: calc(var(--header-h) + 40px) 48px;
   overflow: clip;
 }
 
@@ -13,29 +13,33 @@
   display: grid;
   grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
   align-items: center;
-  gap: 72px;
-}
-
-/* ─── Entrance ─── */
-.copy > *,
-.terminalWrap,
-.stat {
-  animation: rise 1s var(--ease-out) both;
-  animation-delay: calc(var(--intro-offset) + var(--i, 0) * 100ms + 80ms);
+  gap: 56px;
 }
 
 /* ─── Copy ─── */
+.copy {
+  position: relative;
+}
+
 .role {
-  font-size: 22px;
+  font-size: clamp(16px, 1.1vw, 22px);
   font-weight: 600;
 }
 
 .title {
-  margin-top: 14px;
-  font-size: 84px;
+  margin-top: 10px;
+  font-size: clamp(56px, 4.4vw, 96px);
   font-weight: 800;
   line-height: 1.04;
   letter-spacing: -0.045em;
+}
+
+/* Each line masks its letters as they rise in; the padding leaves room for the comma's tail */
+.line {
+  display: block;
+  overflow-y: clip;
+  padding-bottom: 0.14em;
+  margin-bottom: -0.14em;
 }
 
 .name {
@@ -44,10 +48,10 @@
 }
 
 .tagline {
-  margin-top: 36px;
+  margin-top: 22px;
   max-width: 44ch;
-  font-size: 17px;
-  line-height: 1.9;
+  font-size: clamp(13.5px, 0.9vw, 17px);
+  line-height: 1.8;
   color: var(--muted);
 }
 
@@ -59,44 +63,46 @@
 .actions {
   display: flex;
   align-items: center;
-  gap: 32px;
-  margin-top: 44px;
+  gap: 24px;
+  margin-top: 28px;
 }
 
 /* ─── Terminal ─── */
 .terminalWrap {
   position: relative;
+  justify-self: end;
+  width: 100%;
+  max-width: 620px;
 }
 
 .terminal {
   position: relative;
   overflow: hidden;
-  animation: float 7s ease-in-out infinite;
   border: 1px solid var(--line-strong);
   border-radius: var(--radius);
-  background: var(--navy-800);
-  box-shadow: 0 40px 80px -32px rgba(0, 0, 0, 0.8);
+  background: var(--green-800);
+  box-shadow: 0 48px 90px -36px rgba(0, 0, 0, 0.85);
 }
 
 .titlebar {
   display: flex;
   align-items: center;
-  gap: 18px;
-  padding: 15px 20px;
+  gap: 14px;
+  padding: 10px 16px;
   border-bottom: 1px solid var(--line);
-  background: rgba(255, 255, 255, 0.025);
-  font-size: 13px;
+  background: var(--green-700);
+  font-size: 11.5px;
   color: var(--subtle);
 }
 
 .lights {
   display: flex;
-  gap: 8px;
+  gap: 6px;
 }
 
 .lights i {
-  width: 12px;
-  height: 12px;
+  width: 10px;
+  height: 10px;
   border-radius: 50%;
   background: var(--faint);
 }
@@ -107,19 +113,14 @@
 
 .screen {
   display: grid;
-  gap: 14px;
-  padding: 28px 30px 32px;
-  font-size: 14.5px;
-  line-height: 1.75;
-}
-
-.entry {
-  animation: type-in 0.5s var(--ease-out) both;
-  animation-delay: calc(var(--intro-offset) + 700ms + var(--i, 0) * 350ms);
+  gap: 9px;
+  padding: 18px 20px 22px;
+  font-size: clamp(12.5px, 0.82vw, 14.5px);
+  line-height: 1.65;
 }
 
 .prompt {
-  margin-right: 12px;
+  margin-right: 9px;
   font-weight: 800;
   color: var(--orange);
 }
@@ -129,13 +130,13 @@
 }
 
 .directories {
-  color: #8db8ff;
+  color: #7fdcae;
   word-spacing: 0.4em;
 }
 
 .cursor {
   display: inline-block;
-  width: 10px;
+  width: 8px;
   height: 1.25em;
   vertical-align: text-bottom;
   background: var(--orange);
@@ -143,27 +144,31 @@
 }
 
 /* ─── Stats ─── */
-/* Columns size to their content so longer values (e.g. a date) stay on one line */
 .stats {
   display: grid;
-  grid-template-columns: repeat(4, auto);
-  justify-content: space-between;
-  gap: 32px;
-  margin-top: 88px;
-  padding-top: 40px;
-  border-top: 1px solid var(--line);
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  margin-top: 44px;
+  padding-block: 18px;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius);
+  background: var(--green-800);
 }
 
 .stat {
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: 12px;
+  padding-inline: 20px;
+}
+
+.stat + .stat {
+  border-left: 1px solid var(--line);
 }
 
 .stat dd {
   order: -1;
   white-space: nowrap;
-  font-size: 60px;
+  font-size: clamp(34px, 2.5vw, 50px);
   font-weight: 800;
   line-height: 1;
   letter-spacing: -0.05em;
@@ -171,29 +176,9 @@
 
 .stat dt {
   max-width: 16ch;
-  font-size: 14.5px;
+  font-size: 12px;
   line-height: 1.5;
   color: var(--muted);
-}
-
-@keyframes rise {
-  from {
-    opacity: 0;
-    transform: translateY(24px);
-  }
-}
-
-@keyframes type-in {
-  from {
-    opacity: 0;
-    transform: translateX(-8px);
-  }
-}
-
-@keyframes float {
-  50% {
-    transform: translateY(-10px);
-  }
 }
 
 @keyframes blink {

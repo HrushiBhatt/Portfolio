@@ -5,7 +5,8 @@ Personal portfolio for Hrushi Bhatt — Computer Engineering at Iowa State Unive
 ## Stack
 
 - **React 19 + TypeScript**, built with **Vite 8**
-- **CSS Modules** with design tokens in `src/styles/global.css` (navy + orange, JetBrains Mono); no UI framework or animation library
+- **CSS Modules** with design tokens in `src/styles/global.css` (dark green + orange, JetBrains Mono); no UI framework
+- **GSAP** (ScrollTrigger, SplitText, ScrambleText) for animation, **Lenis** for smooth scrolling, **three.js** for the hero's dot field (loaded as its own chunk)
 - **vite-imagetools** — photos are resized and converted to WebP at build time
 - **Prerendered HTML** — the page is rendered to static markup at build time, then hydrated
 - **Official tool logos** from [Simple Icons](https://simpleicons.org) (CC0) and [Devicon](https://devicon.dev) (MIT), vendored in `src/lib/`

@@ -3,6 +3,8 @@ import react from '@vitejs/plugin-react'
 import { imagetools } from 'vite-imagetools'
 
 export default defineConfig({
+  // three.js is about 530 kB but loads on its own after first paint (components/HeroField.tsx)
+  build: { chunkSizeWarningLimit: 600 },
   plugins: [
     react(),
     // `import photo from './photo.jpg?responsive'` → WebP at up to four widths

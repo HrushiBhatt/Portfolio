@@ -6,13 +6,15 @@ interface ProjectMediaProps {
   project: Project;
   sizes: string;
   className?: string;
+  /** Let the photo drift inside its frame on scroll. Screenshots stay put: they're shown whole. */
+  parallax?: boolean;
 }
 
 /**
  * A project's cover in a consistent frame. Photos fill it; screenshots and diagrams
  * (`coverFit: 'contain'`) are shown whole, centred on a dark stage.
  */
-export function ProjectMedia({ project, sizes, className }: ProjectMediaProps) {
+export function ProjectMedia({ project, sizes, className, parallax }: ProjectMediaProps) {
   const contained = project.coverFit === 'contain';
 
   return (
@@ -23,6 +25,7 @@ export function ProjectMedia({ project, sizes, className }: ProjectMediaProps) {
         className={styles.image}
         loading="lazy"
         decoding="async"
+        data-parallax={parallax && !contained ? '' : undefined}
         style={{ objectPosition: project.coverPosition }}
       />
     </div>

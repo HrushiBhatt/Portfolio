@@ -21,7 +21,7 @@ export function Footer() {
         <SocialLinks size="sm" />
 
         <a href="#top" className={styles.top}>
-          Back to top <Icon name="arrowUp" size={15} />
+          Back to top <Icon name="arrowUp" size={13} />
         </a>
       </div>
     </footer>

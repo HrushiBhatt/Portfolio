@@ -1,6 +1,6 @@
 import { iconColor, type BrandIconData } from '../lib/techIcons';
 
-/** An official product logo, drawn in its brand colour (or white if too dark to see on navy). */
+/** An official product logo, drawn in its brand colour (or white if too dark to see on green). */
 export function BrandIcon({ icon, size = 16 }: { icon: BrandIconData; size?: number }) {
   const paths = Array.isArray(icon.path) ? icon.path : [icon.path];
 

@@ -1,18 +1,17 @@
 .grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 28px;
+  gap: 20px;
 }
 
 .card {
   position: relative;
   display: flex;
   flex-direction: column;
-  overflow: hidden;
-  padding: 36px 40px 40px;
-  border: 1px solid var(--line);
+  padding: 24px 26px 26px;
+  border: 1px solid var(--line-strong);
   border-radius: var(--radius);
-  background: var(--navy-800);
+  background: var(--green-800);
   box-shadow: var(--shadow-card);
   transition:
     border-color 0.4s var(--ease-out),
@@ -24,50 +23,63 @@
   content: '';
   position: absolute;
   top: 0;
-  left: 40px;
-  width: 56px;
+  left: 26px;
+  width: 44px;
   height: 3px;
   border-radius: 0 0 3px 3px;
   background: var(--orange);
+  transition: transform 1s var(--ease-out) 0.5s;
+  transform-origin: left;
+}
+
+/* The bar draws itself across once the card has been revealed */
+:global(.js) .card:not(:global(.is-visible))::before {
+  transform: scaleX(0);
 }
 
 .card:hover {
-  border-color: rgba(255, 138, 43, 0.45);
+  border-color: var(--orange);
   transform: translateY(-4px);
+}
+
+.head {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  column-gap: 20px;
 }
 
 .top {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 32px;
+  margin-bottom: 16px;
 }
 
 .icon {
   display: grid;
   place-items: center;
-  width: 58px;
-  height: 58px;
-  border: 1px solid rgba(255, 138, 43, 0.45);
-  border-radius: 16px;
-  background: var(--navy-900);
+  width: 40px;
+  height: 40px;
+  border: 1px solid var(--orange);
+  border-radius: 11px;
+  background: var(--green-900);
   color: var(--orange);
 }
 
 .badge {
   display: inline-flex;
   align-items: center;
-  gap: 10px;
-  padding: 6px 14px;
-  border: 1px solid rgba(255, 138, 43, 0.35);
+  gap: 8px;
+  padding: 3px 10px;
+  border: 1px solid var(--orange);
   border-radius: 999px;
-  font-size: 12.5px;
+  font-size: 11px;
   font-weight: 700;
   color: var(--orange);
 }
 
 .period {
-  font-size: 13px;
+  font-size: 11px;
   font-weight: 600;
   letter-spacing: 0.06em;
   text-transform: uppercase;
@@ -75,32 +87,33 @@
 }
 
 .title {
-  margin-top: 12px;
-  font-size: 26px;
+  margin-top: 6px;
+  font-size: 17px;
   font-weight: 800;
-  line-height: 1.25;
+  line-height: 1.3;
 }
 
 .org {
-  margin-top: 10px;
-  font-size: 15.5px;
+  margin-top: 5px;
+  font-size: 13px;
   font-weight: 600;
+  text-wrap: balance;
 }
 
 .bullets {
   display: grid;
-  gap: 10px;
-  margin-top: 24px;
-  padding-top: 24px;
+  gap: 6px;
+  margin-top: 14px;
+  padding-top: 14px;
   border-top: 1px solid var(--line);
-  font-size: 15px;
-  line-height: 1.7;
+  font-size: 13px;
+  line-height: 1.6;
   color: var(--muted);
 }
 
 .bullets li {
   position: relative;
-  padding-left: 26px;
+  padding-left: 20px;
 }
 
 .bullets li::before {
@@ -111,60 +124,64 @@
   color: var(--orange);
 }
 
-/* ─── Photo strip ─── */
-.photos {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 28px;
-  margin-top: 28px;
+/* ─── Print: a small photo pinned over the card's top edge ─── */
+.print {
+  /* Past the card's padding, so it hangs over the top edge */
+  width: clamp(140px, 9.5vw, 170px);
+  margin: -50px -8px 0 0;
 }
 
-.photo {
+.snapshot {
   position: relative;
-  aspect-ratio: 3 / 2;
-  overflow: hidden;
-  border: 1px solid var(--line);
-  border-radius: var(--radius);
+  padding: 6px 6px 0;
+  border-radius: 3px;
+  background: var(--text);
+  box-shadow: 0 20px 34px -14px rgba(0, 0, 0, 0.75);
+  transform: rotate(-3deg);
+  transition: transform 0.6s var(--ease-out);
 }
 
-.photo img {
+.card:nth-child(even) .snapshot {
+  transform: rotate(2.5deg);
+}
+
+.card .snapshot:hover {
+  transform: rotate(0deg) scale(1.06);
+}
+
+/* A strip of solid orange tape holding it on */
+.snapshot::before {
+  content: '';
+  position: absolute;
+  z-index: 1;
+  top: -7px;
+  left: 50%;
+  width: 46px;
+  height: 13px;
+  background: var(--orange);
+  transform: translateX(-50%) rotate(-2deg);
+}
+
+.window {
+  overflow: hidden;
+  aspect-ratio: 4 / 3;
+  background: var(--green-700);
+}
+
+.window img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: 50% 40%;
-  transition: transform 1.2s var(--ease-out);
+  transform: scale(var(--zoom, 1));
+  transform-origin: var(--focus, center);
 }
 
-.photo:hover img {
-  transform: scale(1.04);
-}
-
-.photo::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(0deg, rgba(6, 13, 26, 0.7), transparent 40%);
-  pointer-events: none;
-}
-
-.caption {
-  position: absolute;
-  bottom: 20px;
-  left: 20px;
-  z-index: 1;
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 7px 14px;
-  border: 1px solid var(--line-strong);
-  border-radius: 999px;
-  background: rgba(6, 13, 26, 0.66);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  font-size: 12.5px;
-  font-weight: 600;
-}
-
-.caption svg {
-  color: var(--orange);
+.snapshot figcaption {
+  padding: 5px 1px 6px;
+  font-size: 10px;
+  font-weight: 700;
+  line-height: 1.3;
+  text-align: center;
+  white-space: nowrap;
+  color: var(--green-950);
 }

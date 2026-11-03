@@ -1,5 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { profile } from '../data/profile';
+import { gsap, useMotion } from '../lib/gsap';
+import { introOffsetMs } from '../lib/intro';
 import { Button } from './Button';
 import styles from './Header.module.css';
 
@@ -16,6 +18,14 @@ export function Header() {
   const [active, setActive] = useState<string | null>(null);
 
   const progressRef = useRef<HTMLSpanElement>(null);
+  const navRef = useRef<HTMLElement>(null);
+  const indicatorRef = useRef<HTMLSpanElement>(null);
+  const barRef = useRef<HTMLDivElement>(null);
+
+  useMotion(() => {
+    gsap.set(barRef.current, { visibility: 'visible' });
+    gsap.from(barRef.current, { yPercent: -100, autoAlpha: 0, delay: introOffsetMs() / 1000 + 0.2, duration: 1.2 });
+  });
 
   // Solid header once scrolled, and the orange reading-progress bar along its bottom edge.
   useEffect(() => {
@@ -49,16 +59,28 @@ export function Header() {
     return () => observer.disconnect();
   }, []);
 
+  // Slide the shared underline to the active link; web fonts or a resize can change its width.
+  useEffect(() => {
+    const place = () => {
+      const link = navRef.current?.querySelector<HTMLElement>('[aria-current="true"]');
+      indicatorRef.current?.style.setProperty('--x', `${link?.offsetLeft ?? 0}px`);
+      indicatorRef.current?.style.setProperty('--w', `${link?.offsetWidth ?? 0}px`);
+    };
+    place();
+    window.addEventListener('resize', place);
+    return () => window.removeEventListener('resize', place);
+  }, [active]);
+
   return (
     <header className={styles.header} data-solid={scrolled}>
       <span ref={progressRef} className={styles.progress} aria-hidden="true" />
-      <div className={`container ${styles.bar}`}>
+      <div ref={barRef} className={`container ${styles.bar}`} data-hero>
         <a href="#top" className={styles.brand} aria-label={`${profile.name}, back to top`}>
           {profile.name}
           <span className={styles.dot}>.</span>
         </a>
 
-        <nav className={styles.nav} aria-label="Primary">
+        <nav ref={navRef} className={styles.nav} aria-label="Primary">
           {LINKS.map((link) => (
             <a
               key={link.id}
@@ -69,9 +91,10 @@ export function Header() {
               {link.label}
             </a>
           ))}
-          <Button href={profile.github} size="sm" leadingIcon="github">
+          <Button href={profile.github} size="sm" variant="ghost" logo="github">
             GitHub
           </Button>
+          <span ref={indicatorRef} className={styles.indicator} aria-hidden="true" />
         </nav>
       </div>
     </header>

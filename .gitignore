@@ -44,3 +44,6 @@ Thumbs.db
 
 # Original/source photos — the site uses optimized copies in src/assets/images
 Pics Personal Website/
+
+# Personal resume: kept locally, not part of the site
+src/assets/HrushiBhatt_Resume1.pdf

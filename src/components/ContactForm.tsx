@@ -92,7 +92,7 @@ export function ContactForm() {
 
       <label className={styles.field}>
         <span>Message</span>
-        <textarea name="message" required maxLength={2000} rows={6} placeholder="What's on your mind?" />
+        <textarea name="message" required maxLength={2000} rows={4} placeholder="What's on your mind?" />
       </label>
 
       <div className={styles.footer}>

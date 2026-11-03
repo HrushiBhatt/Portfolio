@@ -1,4 +1,5 @@
 import type { IconName } from '../components/Icon';
+import type { SocialLogoName } from '../components/SocialLogo';
 
 export const profile = {
   name: 'Hrushi Bhatt',
@@ -61,14 +62,14 @@ export const skills: SkillGroup[] = [
 export interface Social {
   label: string;
   href: string;
-  icon: IconName;
+  logo: SocialLogoName;
 }
 
 export const socials: Social[] = [
-  { label: 'GitHub', href: 'https://github.com/HrushiBhatt', icon: 'github' },
-  { label: 'LinkedIn', href: 'https://linkedin.com/in/hrushibhatt', icon: 'linkedin' },
-  { label: 'Email', href: 'mailto:hrushibhatt@gmail.com', icon: 'mail' },
-  { label: 'Threads', href: 'https://www.threads.com/@hrushibhatt_', icon: 'threads' },
-  { label: 'Instagram', href: 'https://www.instagram.com/hrushibhatt_', icon: 'instagram' },
-  { label: 'Spotify', href: 'https://open.spotify.com/user/hrushibhatt', icon: 'spotify' },
+  { label: 'GitHub', href: 'https://github.com/HrushiBhatt', logo: 'github' },
+  { label: 'LinkedIn', href: 'https://linkedin.com/in/hrushibhatt', logo: 'linkedin' },
+  { label: 'Email', href: 'mailto:hrushibhatt@gmail.com', logo: 'gmail' },
+  { label: 'Threads', href: 'https://www.threads.com/@hrushibhatt_', logo: 'threads' },
+  { label: 'Instagram', href: 'https://www.instagram.com/hrushibhatt_', logo: 'instagram' },
+  { label: 'Spotify', href: 'https://open.spotify.com/user/hrushibhatt', logo: 'spotify' },
 ];

@@ -140,7 +140,7 @@ export function techIcon(name: string): BrandIconData | undefined {
   return ICONS[name];
 }
 
-// Relative luminance per WCAG, for picking a readable fill on the navy cards.
+// Relative luminance per WCAG, for picking a readable fill on the green cards.
 function luminance(hex: string) {
   const [r, g, b] = [0, 2, 4].map((i) => {
     const c = parseInt(hex.slice(i, i + 2), 16) / 255;
@@ -149,10 +149,10 @@ function luminance(hex: string) {
   return 0.2126 * r + 0.7152 * g + 0.0722 * b;
 }
 
-const CARD_LUMINANCE = luminance('101E37');
+const CARD_LUMINANCE = luminance('0A1F15');
 
-/** The brand colour, or near-white when the brand colour would vanish on navy (e.g. GitHub's black). */
+/** The brand colour, or near-white when the brand colour would vanish on green (e.g. GitHub's black). */
 export function iconColor(hex: string) {
   const contrast = (luminance(hex) + 0.05) / (CARD_LUMINANCE + 0.05);
-  return contrast >= 2.4 ? `#${hex}` : '#eef2f9';
+  return contrast >= 2.4 ? `#${hex}` : '#f2f7f3';
 }

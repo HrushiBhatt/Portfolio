@@ -1,24 +1,24 @@
 .list {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
+  gap: 6px;
 }
 
 .tag,
 .more {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  padding: 5px 12px;
+  gap: 6px;
+  padding: 3px 9px;
   border-radius: 999px;
-  font-size: 12.5px;
+  font-size: 11.5px;
   font-weight: 500;
   line-height: 1.5;
 }
 
 .tag {
   border: 1px solid var(--line-strong);
-  background: var(--navy-900);
+  background: var(--green-900);
   color: var(--text);
   transition: border-color 0.25s var(--ease-out);
 }
@@ -36,7 +36,7 @@
 }
 
 .more {
-  border: 1px solid rgba(255, 138, 43, 0.5);
-  background: var(--navy-900);
+  border: 1px solid var(--orange);
+  background: var(--green-900);
   color: var(--orange);
 }

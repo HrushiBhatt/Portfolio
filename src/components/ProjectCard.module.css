@@ -1,26 +1,36 @@
-/* A wide showcase row: large image on one side, the project story on the other */
+/* A wide showcase row: a modest cover on one side, the project story filling the rest */
 .card {
+  position: relative;
   display: grid;
-  grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
-  align-items: center;
-  gap: 52px;
-  padding: 20px 52px 20px 20px;
-  border: 1px solid var(--line);
-  border-radius: 24px;
-  background: var(--navy-800);
+  grid-template-columns: clamp(340px, 30vw, 500px) minmax(0, 1fr);
+  gap: 32px;
+  padding: 12px 32px 12px 12px;
+  border: 1px solid var(--line-strong);
+  border-radius: 18px;
+  background: var(--green-800);
   box-shadow: var(--shadow-card);
-  transition:
-    border-color 0.4s var(--ease-out),
-    box-shadow 0.4s var(--ease-out);
+  transform-origin: top center;
+  transition: border-color 0.4s var(--ease-out);
 }
 
 .card:hover {
-  border-color: rgba(255, 138, 43, 0.5);
+  border-color: var(--orange);
+}
+
+/* Darkens a card as the next one slides over it in the stack (Projects.tsx sets --dim) */
+.card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: var(--green-950);
+  opacity: var(--dim, 0);
+  pointer-events: none;
 }
 
 .card[data-flip] {
-  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
-  padding: 20px 20px 20px 52px;
+  grid-template-columns: minmax(0, 1fr) clamp(340px, 30vw, 500px);
+  padding: 12px 12px 12px 32px;
 }
 
 .card[data-flip] .mediaButton {
@@ -31,34 +41,41 @@
 .mediaButton {
   position: relative;
   display: block;
+  min-height: clamp(240px, 17vw, 320px);
   padding: 0;
   border: 0;
-  border-radius: 16px;
+  border-radius: 12px;
   overflow: hidden;
   background: none;
 }
 
-.media {
-  aspect-ratio: 16 / 11;
+/* The cover fills its column, however tall the story beside it runs */
+.mediaButton .media {
+  position: absolute;
+  inset: 0;
 }
 
-.card:hover .media img:last-child {
+.media {
+  transition: transform 0.9s var(--ease-out);
+}
+
+.card:hover .media {
   transform: scale(1.035);
 }
 
 .hint {
   position: absolute;
-  bottom: 18px;
-  left: 18px;
+  bottom: 12px;
+  left: 12px;
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  padding: 8px 16px;
+  gap: 6px;
+  padding: 5px 12px;
   border-radius: 999px;
   background: var(--orange);
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 700;
-  color: var(--navy-950);
+  color: var(--green-950);
   opacity: 0;
   transform: translateY(8px);
   transition:
@@ -74,17 +91,18 @@
 
 /* ─── Body ─── */
 .body {
-  padding-block: 20px;
+  align-self: center;
+  padding-block: 12px;
 }
 
 .head {
   display: flex;
   align-items: baseline;
-  gap: 16px;
+  gap: 12px;
 }
 
 .index {
-  font-size: 44px;
+  font-size: 26px;
   font-weight: 800;
   line-height: 1;
   letter-spacing: -0.05em;
@@ -92,7 +110,7 @@
 }
 
 .category {
-  font-size: 12.5px;
+  font-size: 11px;
   font-weight: 600;
   letter-spacing: 0.08em;
   text-transform: uppercase;
@@ -100,35 +118,35 @@
 }
 
 .title {
-  margin-top: 16px;
-  font-size: 32px;
+  margin-top: 8px;
+  font-size: 21px;
   font-weight: 800;
   letter-spacing: -0.03em;
 }
 
 .tagline {
-  margin-top: 14px;
-  font-size: 15px;
-  line-height: 1.75;
+  margin-top: 8px;
+  font-size: 13.5px;
+  line-height: 1.65;
   color: var(--muted);
   display: -webkit-box;
-  -webkit-line-clamp: 4;
+  -webkit-line-clamp: 5;
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
 
 .meta {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-  gap: 14px 24px;
-  margin-top: 22px;
-  padding-top: 20px;
+  grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+  gap: 10px 20px;
+  margin-top: 14px;
+  padding-top: 14px;
   border-top: 1px solid var(--line);
 }
 
 .meta dt,
 .metrics dt {
-  font-size: 11.5px;
+  font-size: 10.5px;
   font-weight: 600;
   letter-spacing: 0.08em;
   text-transform: uppercase;
@@ -136,8 +154,8 @@
 }
 
 .meta dd {
-  margin-top: 4px;
-  font-size: 14px;
+  margin-top: 2px;
+  font-size: 12.5px;
   font-weight: 600;
   line-height: 1.5;
 }
@@ -145,34 +163,34 @@
 .metrics {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 10px;
-  margin-top: 20px;
+  gap: 8px;
+  margin-top: 14px;
 }
 
 .metrics div {
   display: flex;
   flex-direction: column-reverse;
-  gap: 6px;
-  padding: 14px 16px;
-  border: 1px solid rgba(255, 138, 43, 0.45);
+  gap: 4px;
+  padding: 9px 12px;
+  border: 1px solid var(--orange);
   border-radius: var(--radius-sm);
-  background: var(--navy-900);
+  background: var(--green-900);
 }
 
 .metrics dd {
-  font-size: 20px;
+  font-size: 15px;
   font-weight: 800;
   line-height: 1;
   color: var(--orange);
 }
 
 .tags {
-  margin-top: 22px;
+  margin-top: 14px;
 }
 
 .actions {
   display: flex;
   flex-wrap: wrap;
-  gap: 10px;
-  margin-top: 28px;
+  gap: 8px;
+  margin-top: 16px;
 }

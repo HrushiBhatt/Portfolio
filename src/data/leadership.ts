@@ -9,7 +9,8 @@ export interface LeadershipItem {
   period: string;
   icon: IconName;
   bullets: string[];
-  photos?: { picture: Picture; alt: string }[];
+  /** A small print pinned to the card. `zoom` and `focus` crop in on the subject at that size. */
+  photo?: { picture: Picture; alt: string; caption: string; zoom: number; focus: string };
 }
 
 export const leadership: LeadershipItem[] = [
@@ -24,7 +25,7 @@ export const leadership: LeadershipItem[] = [
       'Middle School, High School, YCC, Club, and College.',
       'The people are the reason I stayed with it this long.',
     ],
-    photos: [{ picture: frisbee, alt: 'Hrushi playing Ultimate Frisbee' }],
+    photo: { picture: frisbee, alt: 'Hrushi playing Ultimate Frisbee', caption: 'Iowa State Ultimate', zoom: 1.45, focus: '48% 62%' },
   },
   {
     title: 'Electrical Systems Engineer',
@@ -37,6 +38,12 @@ export const leadership: LeadershipItem[] = [
       'Learned how low voltage wiring actually fails in the real world.',
       'Wired the dashboard and data acquisition for live telemetry.',
     ],
-    photos: [{ picture: cycloneRacing, alt: 'Iowa State Cyclone Racing Formula SAE car at competition' }],
+    photo: {
+      picture: cycloneRacing,
+      alt: 'Iowa State Cyclone Racing Formula SAE car at competition',
+      caption: 'Cyclone Racing',
+      zoom: 1.12,
+      focus: '55% 55%',
+    },
   },
 ];

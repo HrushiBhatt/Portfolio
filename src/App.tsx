@@ -8,10 +8,16 @@ import { Experience } from './sections/Experience';
 import { Projects } from './sections/Projects';
 import { Leadership } from './sections/Leadership';
 import { Contact } from './sections/Contact';
+import { useMagnetic } from './hooks/useMagnetic';
+import { usePageMotion } from './hooks/usePageMotion';
 import { useReveal } from './hooks/useReveal';
+import { useSmoothScroll } from './hooks/useSmoothScroll';
 
 export function App() {
+  useSmoothScroll();
   useReveal();
+  usePageMotion();
+  useMagnetic();
 
   return (
     <>

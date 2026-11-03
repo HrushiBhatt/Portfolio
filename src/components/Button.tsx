@@ -1,6 +1,7 @@
 import type { ComponentPropsWithoutRef, ReactNode } from 'react';
 import { linkTarget } from '../lib/links';
 import { Icon, type IconName } from './Icon';
+import { SocialLogo, type SocialLogoName } from './SocialLogo';
 import styles from './Button.module.css';
 
 type Variant = 'primary' | 'outline' | 'ghost';
@@ -10,8 +11,8 @@ interface CommonProps {
   size?: 'md' | 'sm';
   /** Trailing icon; arrows nudge in their direction on hover. */
   icon?: IconName;
-  /** Leading icon, e.g. a brand mark. */
-  leadingIcon?: IconName;
+  /** Leading brand logo, in its real colours. */
+  logo?: SocialLogoName;
   children: ReactNode;
 }
 
@@ -20,26 +21,26 @@ type NativeButtonProps = CommonProps & ComponentPropsWithoutRef<'button'> & { hr
 
 /** Renders an <a> when given `href`, otherwise a <button>. */
 export function Button(props: AnchorProps | NativeButtonProps) {
-  const { variant = 'primary', size = 'md', icon, leadingIcon, children, className, ...rest } = props;
+  const { variant = 'primary', size = 'md', icon, logo, children, className, ...rest } = props;
   const classes = [styles.button, styles[variant], styles[size], className].filter(Boolean).join(' ');
   const content = (
     <>
-      {leadingIcon && <Icon name={leadingIcon} size={16} />}
+      {logo && <SocialLogo name={logo} size={14} />}
       <span>{children}</span>
-      {icon && <Icon name={icon} size={16} className={styles.trailing} />}
+      {icon && <Icon name={icon} size={14} className={styles.trailing} />}
     </>
   );
 
   if (rest.href !== undefined) {
     return (
-      <a className={classes} data-icon={icon} {...linkTarget(rest.href)} {...(rest as ComponentPropsWithoutRef<'a'>)}>
+      <a className={classes} data-icon={icon} data-magnetic {...linkTarget(rest.href)} {...(rest as ComponentPropsWithoutRef<'a'>)}>
         {content}
       </a>
     );
   }
 
   return (
-    <button className={classes} data-icon={icon} {...(rest as ComponentPropsWithoutRef<'button'>)}>
+    <button className={classes} data-icon={icon} data-magnetic {...(rest as ComponentPropsWithoutRef<'button'>)}>
       {content}
     </button>
   );

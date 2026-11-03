@@ -1,4 +1,4 @@
-.list {
-  display: grid;
-  gap: 40px;
+/* A plain block stack: a sticky grid item could only stick within its own row */
+.list > li + li {
+  margin-top: 28px;
 }

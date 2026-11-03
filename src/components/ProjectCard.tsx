@@ -1,3 +1,4 @@
+import { useRef } from 'react';
 import type { Project } from '../data/projects';
 import { Button } from './Button';
 import { Icon } from './Icon';
@@ -13,10 +14,13 @@ interface ProjectCardProps {
   index: number;
   /** Put the image on the right instead of the left. */
   flip?: boolean;
-  onOpen: () => void;
+  /** Receives the cover, which the dialog morphs out of. */
+  onOpen: (cover: HTMLElement | null) => void;
 }
 
 export function ProjectCard({ project, index, flip, onOpen }: ProjectCardProps) {
+  const cover = useRef<HTMLButtonElement>(null);
+  const open = () => onOpen(cover.current);
   const hiddenTags = project.tech.length - VISIBLE_TAGS;
   const meta = [
     { label: 'Role', value: project.role },
@@ -27,15 +31,17 @@ export function ProjectCard({ project, index, flip, onOpen }: ProjectCardProps) 
   return (
     <article className={styles.card} data-flip={flip || undefined}>
       <button
+        ref={cover}
         type="button"
         className={styles.mediaButton}
-        onClick={onOpen}
+        onClick={open}
         aria-haspopup="dialog"
         aria-label={`Open ${project.title}`}
+        data-clip
       >
-        <ProjectMedia project={project} sizes="660px" className={styles.media} />
+        <ProjectMedia project={project} sizes="500px" className={styles.media} parallax />
         <span className={styles.hint} aria-hidden="true">
-          Open <Icon name="arrowUpRight" size={15} />
+          Open <Icon name="arrowUpRight" size={13} />
         </span>
       </button>
 
@@ -74,11 +80,11 @@ export function ProjectCard({ project, index, flip, onOpen }: ProjectCardProps) 
         />
 
         <div className={styles.actions}>
-          <Button type="button" size="sm" icon="arrowRight" onClick={onOpen} aria-haspopup="dialog">
+          <Button type="button" size="sm" icon="arrowRight" onClick={open} aria-haspopup="dialog">
             Open
           </Button>
           {project.githubUrl && (
-            <Button href={project.githubUrl} size="sm" variant="ghost" leadingIcon="github">
+            <Button href={project.githubUrl} size="sm" variant="ghost" logo="github">
               GitHub
             </Button>
           )}

@@ -1,5 +1,7 @@
-import { useEffect, useRef, type ReactNode } from 'react';
+import { useLayoutEffect, useRef, type ReactNode } from 'react';
 import type { Project } from '../data/projects';
+import { lockScroll } from '../hooks/useSmoothScroll';
+import { gsap, prefersReducedMotion } from '../lib/gsap';
 import { Button } from './Button';
 import { Icon } from './Icon';
 import { ProjectMedia } from './ProjectMedia';
@@ -8,45 +10,65 @@ import styles from './ProjectDialog.module.css';
 
 interface ProjectDialogProps {
   project: Project | null;
-  onClose: () => void;
+  /** The visitor asked to close: the parent animates `project` back to null. */
+  onRequestClose: () => void;
+  /** The browser closed the dialog itself. */
+  onClosed: () => void;
 }
 
 /** Native <dialog>: focus trapping, Esc to close and focus return come for free. */
-export function ProjectDialog({ project, onClose }: ProjectDialogProps) {
+export function ProjectDialog({ project, onRequestClose, onClosed }: ProjectDialogProps) {
   const ref = useRef<HTMLDialogElement>(null);
 
-  useEffect(() => {
+  // A layout effect so the dialog is already open when lib/morph.ts captures the end state.
+  useLayoutEffect(() => {
     const dialog = ref.current;
     if (!dialog) return;
+    lockScroll(Boolean(project));
     if (project && !dialog.open) {
       dialog.showModal();
       dialog.scrollTop = 0;
+      if (prefersReducedMotion()) return;
+      // The cover arrives first (the morph); the rest of the sheet settles in behind it
+      const entrance = gsap.from(dialog.querySelectorAll(`.${styles.topbar}, .${styles.body} > *`), {
+        y: 26,
+        autoAlpha: 0,
+        duration: 0.9,
+        delay: 0.2,
+        stagger: 0.05,
+      });
+      return () => {
+        entrance.revert();
+      };
     } else if (!project && dialog.open) {
       dialog.close();
     }
   }, [project]);
-
-  const close = () => ref.current?.close();
 
   return (
     <dialog
       ref={ref}
       className={styles.dialog}
       aria-labelledby="project-dialog-title"
-      onClose={onClose}
+      data-lenis-prevent
+      onCancel={(e) => {
+        e.preventDefault();
+        onRequestClose();
+      }}
+      onClose={onClosed}
       // A click on the dialog element itself (not its content) is a click on the backdrop
-      onClick={(e) => e.target === e.currentTarget && close()}
+      onClick={(e) => e.target === e.currentTarget && onRequestClose()}
     >
       {project && (
         <article className={styles.panel}>
           <div className={styles.topbar}>
             <p className={styles.category}>{project.category}</p>
-            <button type="button" className={styles.close} onClick={close} aria-label="Close project details">
-              <Icon name="close" size={20} />
+            <button type="button" className={styles.close} onClick={onRequestClose} aria-label="Close project details">
+              <Icon name="close" size={16} />
             </button>
           </div>
 
-          <ProjectMedia project={project} sizes="900px" className={styles.media} />
+          <ProjectMedia project={project} sizes="760px" className={styles.media} />
 
           <div className={styles.body}>
             <h2 id="project-dialog-title" className={styles.title}>
@@ -104,7 +126,7 @@ export function ProjectDialog({ project, onClose }: ProjectDialogProps) {
 
             <div className={styles.actions}>
               {project.githubUrl && (
-                <Button href={project.githubUrl} leadingIcon="github" icon="arrowUpRight">
+                <Button href={project.githubUrl} variant="ghost" logo="github" icon="arrowUpRight">
                   GitHub
                 </Button>
               )}

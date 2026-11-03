@@ -22,9 +22,9 @@ export function TagList({ items, more, fallbackIcon, className }: TagListProps) 
         return (
           <li key={item} className={styles.tag} data-chip style={{ '--n': i } as CSSProperties}>
             {icon ? (
-              <BrandIcon icon={icon} size={14} />
+              <BrandIcon icon={icon} size={12} />
             ) : (
-              fallbackIcon && <Icon name={fallbackIcon} size={14} className={styles.fallback} />
+              fallbackIcon && <Icon name={fallbackIcon} size={12} className={styles.fallback} />
             )}
             {item}
           </li>

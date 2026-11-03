@@ -33,7 +33,7 @@ export interface Project {
 export const projects: Project[] = [
   {
     slug: 'nerdmarket',
-    title: 'NerdMarket',
+    title: 'NerdMarket: Collectibles Marketplace',
     tagline: 'Stock Market for trading cards with intuitive features such as AI card scanning, live community chats, scheduled notifications, price tracking, and collection binders',
     role: 'Backend Engineer',
     team: '4-person (2 Backend, 2 Frontend)',
@@ -52,11 +52,10 @@ export const projects: Project[] = [
     githubUrl: 'https://github.com/HrushiBhatt',
     links: [{ label: 'Demo video', url: 'https://youtu.be/El1KD3GnCjg' }],
     cover: nerdmarketCover,
-    coverFit: 'contain',
   },
   {
     slug: 'radar-robot',
-    title: 'Autonomous Object-Mapping Robot',
+    title: 'Intelligent Robotic Navigation System',
     tagline: 'Roomba equipped with IR, PING, Bump, and Cliff sensors able to navigate autonomously through an object filled area and accurately detect height, width, depth, and distance of each object it sees in its path.',
     role: 'Embedded Software Engineer',
     category: 'Embedded Systems & Design',
@@ -74,7 +73,7 @@ export const projects: Project[] = [
   },
   {
     slug: 'riscv-cpu',
-    title: 'RISC-V Processors',
+    title: 'Pipelined RISC-V Processors',
     tagline: 'Three distinct processors built and tested. Single-Cycle, Software Scheduled, and Hardware Scheduled designs.',
     role: 'Hardware Design Engineer',
     category: 'Computer Architecture',

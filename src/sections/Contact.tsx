@@ -3,6 +3,7 @@ import { Section } from '../components/Section';
 import { ContactForm } from '../components/ContactForm';
 import { Icon } from '../components/Icon';
 import { SocialLinks } from '../components/SocialLinks';
+import { SocialLogo } from '../components/SocialLogo';
 import { profile } from '../data/profile';
 import { revealDelay } from '../hooks/useReveal';
 import styles from './Contact.module.css';
@@ -12,6 +13,7 @@ export function Contact() {
     <Section
       id="contact"
       kicker="contact"
+      tone="orange"
       title={
         <>
           Let&rsquo;s <em>Talk</em>
@@ -20,7 +22,7 @@ export function Contact() {
       subtitle={profile.contactNote}
     >
       <div className={styles.grid}>
-        <aside className={styles.person} data-reveal>
+        <aside className={styles.person} data-reveal="left">
           <div>
             <p className={styles.kicker}>// reach me</p>
             <p className={styles.name}>{profile.name}</p>
@@ -33,7 +35,7 @@ export function Contact() {
             <p className={styles.label}>Email</p>
             <div className={styles.email}>
               <a href={`mailto:${profile.email}`}>
-                <Icon name="mail" size={18} />
+                <SocialLogo name="gmail" size={17} />
                 {profile.email}
               </a>
               <CopyButton text={profile.email} />
@@ -50,9 +52,9 @@ export function Contact() {
           </p>
         </aside>
 
-        <div className={styles.formCard} data-reveal style={revealDelay(120)}>
+        <div className={styles.formCard} data-reveal="right" style={revealDelay(120)}>
           <p className={styles.kicker}>// send a message</p>
-          <h3 className={styles.formTitle}>Drop me a line</h3>
+          <h3 className={styles.formTitle}>Reach Out!</h3>
           <ContactForm />
         </div>
       </div>
@@ -80,7 +82,7 @@ function CopyButton({ text }: { text: string }) {
 
   return (
     <button type="button" className={styles.copy} onClick={copy} aria-label="Copy email address">
-      <Icon name={copied ? 'check' : 'copy'} size={16} />
+      <Icon name={copied ? 'check' : 'copy'} size={14} />
       <span aria-live="polite">{copied ? 'Copied' : 'Copy'}</span>
     </button>
   );
