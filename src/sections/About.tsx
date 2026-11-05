@@ -126,13 +126,30 @@ export function About() {
         </article>
       </div>
 
-      <div className={styles.toolbox}>
+      <div className={styles.block}>
+        <h3 className={styles.subhead} data-split>
+          Career <em>Objective</em>
+        </h3>
+        <div className={styles.objective} data-reveal>
+          {profile.objective.map((part, i) => (
+            <div key={part.label} className={styles.objectivePart}>
+              <p className={styles.objectiveLabel}>
+                <span>0{i + 1}</span>
+                {part.label}
+              </p>
+              <p>{part.text}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div className={styles.block}>
         <header className={styles.toolboxHead}>
-          <h3 className={styles.toolboxTitle} data-split>
+          <h3 className={styles.subhead} data-split>
             My <em>Toolbox</em>
           </h3>
           <p className={styles.toolboxSub} data-reveal>
-            {TOOL_COUNT} technologies &amp; tools across {skills.length} areas
+            {TOOL_COUNT} core tools across {skills.length} areas
           </p>
         </header>
 

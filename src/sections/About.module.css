@@ -180,11 +180,60 @@
   height: auto;
 }
 
-/* ─── Toolbox: one table, a row per area ─── */
-.toolbox {
+/* ─── Sub-sections: career objective, toolbox ─── */
+.block {
   margin-top: 60px;
 }
 
+.subhead {
+  font-size: 28px;
+  font-weight: 800;
+  letter-spacing: -0.035em;
+}
+
+.subhead em {
+  font-style: normal;
+  color: var(--orange);
+}
+
+/* ─── Career objective: two columns, split by a hairline ─── */
+.objective {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  margin-top: 20px;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius);
+  background: var(--green-800);
+  box-shadow: var(--shadow-card);
+}
+
+.objectivePart {
+  padding: 20px 26px 22px;
+  font-size: 14px;
+  line-height: 1.7;
+  color: var(--muted);
+}
+
+.objectivePart + .objectivePart {
+  border-left: 1px solid var(--line);
+}
+
+.objectiveLabel {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 8px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--subtle);
+}
+
+.objectiveLabel span {
+  color: var(--orange);
+}
+
+/* ─── Toolbox: one panel, a column per area ─── */
 .toolboxHead {
   display: flex;
   align-items: flex-end;
@@ -193,23 +242,14 @@
   margin-bottom: 20px;
 }
 
-.toolboxTitle {
-  font-size: 28px;
-  font-weight: 800;
-  letter-spacing: -0.035em;
-}
-
-.toolboxTitle em {
-  font-style: normal;
-  color: var(--orange);
-}
-
 .toolboxSub {
   font-size: 13px;
   color: var(--muted);
 }
 
 .table {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
   border: 1px solid var(--line-strong);
   border-radius: var(--radius);
   background: var(--green-800);
@@ -217,22 +257,18 @@
 }
 
 .row {
-  display: grid;
-  grid-template-columns: 240px minmax(0, 1fr);
-  align-items: center;
-  gap: 20px;
-  padding: 13px 22px;
-  border-bottom: 1px solid var(--line);
+  padding: 18px clamp(16px, 1.3vw, 24px) 20px;
 }
 
-.row:last-child {
-  border-bottom: 0;
+.row + .row {
+  border-left: 1px solid var(--line);
 }
 
 .rowHead {
   display: flex;
   align-items: center;
   gap: 10px;
+  margin-bottom: 14px;
 }
 
 .rowHead h4 {

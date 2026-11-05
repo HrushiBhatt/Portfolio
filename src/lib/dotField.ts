@@ -136,7 +136,7 @@ export function createDotField(host: HTMLElement, { animate }: { animate: boolea
     uSize: { value: 1 },
     uPointer: { value: new Vector3() },
     uPointerOn: { value: 0 },
-    uCold: { value: raw('#2e8259') },
+    uCold: { value: raw('#246e4b') },
     uHot: { value: raw('#ff7f1f') },
   };
   const material = new ShaderMaterial({

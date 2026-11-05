@@ -1,0 +1,214 @@
+.whoami {
+  position: relative;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  column-gap: clamp(64px, 5vw, 96px);
+}
+
+/* ─── Portrait ─── */
+.portrait {
+  position: relative;
+  width: clamp(150px, 11.5vw, 220px);
+  /* Left: room for the ring. Top: centres the photo on the rows, below the "$ whoami" line. */
+  margin: 32px 0 0 12px;
+}
+
+.photo {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  object-fit: cover;
+  object-position: 50% 30%;
+}
+
+/* Sits RING_GAP (Whoami.tsx) outside the photo */
+.rings {
+  position: absolute;
+  inset: -12px;
+  width: calc(100% + 24px);
+  height: calc(100% + 24px);
+  overflow: visible;
+}
+
+.track,
+.arc {
+  fill: none;
+  vector-effect: non-scaling-stroke;
+}
+
+.track {
+  stroke: var(--line-strong);
+  stroke-width: 1px;
+}
+
+.orbit {
+  transform-origin: 50% 50%;
+  transform-box: view-box;
+}
+
+.arc {
+  stroke: var(--orange);
+  stroke-width: 2px;
+  stroke-linecap: round;
+  stroke-dasharray: 0.17 0.33 0.05 0.45;
+}
+
+/* ─── Traces ─── */
+.traces {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  pointer-events: none;
+}
+
+.trace,
+.signal {
+  fill: none;
+  stroke-linejoin: round;
+}
+
+.trace {
+  stroke: var(--line-strong);
+  stroke-width: 1px;
+  transition: stroke 0.25s var(--ease-out);
+}
+
+.signal {
+  stroke: var(--orange);
+  stroke-width: 2px;
+  opacity: 0;
+}
+
+.via {
+  fill: var(--green-900);
+  stroke: var(--orange);
+  stroke-width: 1.5px;
+}
+
+.pad {
+  fill: var(--orange);
+}
+
+[data-active='true'] .trace {
+  stroke: var(--orange);
+}
+
+/* ─── Answers ─── */
+.command {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin-bottom: 10px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.command span {
+  font-weight: 800;
+  color: var(--orange);
+}
+
+.command b {
+  font-weight: 600;
+}
+
+.command i {
+  width: 7px;
+  height: 1.15em;
+  background: var(--orange);
+  animation: blink 1.1s steps(1) infinite;
+}
+
+.rows {
+  display: grid;
+  grid-auto-rows: 1fr;
+  gap: 10px;
+}
+
+.row {
+  display: grid;
+  grid-template-columns: 76px minmax(0, 1fr) 14px;
+  align-items: center;
+  gap: 16px;
+  height: 100%;
+  min-height: clamp(54px, 3.7vw, 70px);
+  padding: 9px 16px 9px 20px;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-sm);
+  background: var(--green-800);
+  transition:
+    border-color 0.25s var(--ease-out),
+    background-color 0.25s var(--ease-out);
+}
+
+.row:hover,
+.row:focus-visible {
+  border-color: var(--orange);
+  background: var(--green-700);
+}
+
+.label {
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--orange);
+}
+
+.value {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1px 24px;
+  line-height: 1.5;
+}
+
+.value strong {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-size: clamp(12.5px, 0.84vw, 15px);
+  font-weight: 700;
+}
+
+.secondary {
+  font-size: clamp(11.5px, 0.74vw, 13px);
+  color: var(--muted);
+}
+
+.chevron {
+  color: var(--subtle);
+  transition:
+    color 0.25s var(--ease-out),
+    transform 0.25s var(--ease-out);
+}
+
+.row:hover .chevron,
+.row:focus-visible .chevron {
+  color: var(--orange);
+  transform: translateX(3px);
+}
+
+/* Too narrow for a label column: each label sits above its answer */
+@media (max-width: 1320px) {
+  .row {
+    grid-template-columns: minmax(0, 1fr) 14px;
+    gap: 2px 12px;
+  }
+
+  .label {
+    grid-column: 1 / -1;
+  }
+}
+
+@keyframes blink {
+  50% {
+    opacity: 0;
+  }
+}

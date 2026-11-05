@@ -16,17 +16,17 @@ export interface ExperienceItem {
 
 export const experience: ExperienceItem[] = [
   {
-    title: 'Software Engineer / Product Manager Intern',
+    title: 'Technical Product Manager Intern',
     company: 'Motorola Mobility LLC',
     location: 'Chicago, IL',
     period: 'May 2026 – Present',
     icon: 'layers',
     what: 'Building a full-stack internal platform that helps business teams evaluate on-device apps and services, working across the backend, the interface, and deployment.',
-    impact: 'Gives teams a faster, lower-cost way to evaluate without physical hardware.',
+    impact: 'Gives teams a faster, lower-cost way to evaluate devices without physical hardware.',
     stack: ['Python', 'Flask', 'PostgreSQL', 'Redis', 'React.js', 'TypeScript', 'Docker', 'Google Cloud Platform'],
   },
   {
-    title: 'Product Operations Intern',
+    title: 'Technical Product Operations Intern',
     company: 'Motorola Mobility LLC',
     location: 'Chicago, IL',
     period: 'June 2025 – July 2025',

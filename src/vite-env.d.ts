@@ -9,3 +9,9 @@ declare module '*?responsive' {
   const picture: import('./lib/picture').Picture
   export default picture
 }
+
+// The same, with extra directives first (e.g. `logo.png?lossless=true&responsive`)
+declare module '*&responsive' {
+  const picture: import('./lib/picture').Picture
+  export default picture
+}

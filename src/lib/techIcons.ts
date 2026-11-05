@@ -149,7 +149,7 @@ function luminance(hex: string) {
   return 0.2126 * r + 0.7152 * g + 0.0722 * b;
 }
 
-const CARD_LUMINANCE = luminance('0A1F15');
+const CARD_LUMINANCE = luminance('05130C');
 
 /** The brand colour, or near-white when the brand colour would vanish on green (e.g. GitHub's black). */
 export function iconColor(hex: string) {

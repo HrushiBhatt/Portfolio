@@ -1,11 +1,11 @@
 /* ─── Design tokens ─────────────────────────────────────────────────────── */
 :root {
   /* Dark green: solid tiers, deepest first */
-  --green-950: #030d08;
-  --green-900: #05140d;
-  --green-800: #0a1f15;
-  --green-700: #102c1f;
-  --green-600: #183c2b;
+  --green-950: #010503;
+  --green-900: #020a06;
+  --green-800: #05130c;
+  --green-700: #091d13;
+  --green-600: #0f2a1c;
 
   /* Orange */
   --orange: #ff7f1f;

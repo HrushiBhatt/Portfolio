@@ -1,4 +1,5 @@
 import type { Picture } from '../lib/picture';
+import cicadaCover from '../assets/images/work/cicada/cover.png?lossless=true&responsive';
 import nerdmarketCover from '../assets/images/work/nerdmarket/cover.png?responsive';
 import radarRobotCover from '../assets/images/work/radar-robot/cover.jpg?responsive';
 import riscvCover from '../assets/images/work/riscv-cpu/cover.png?responsive';
@@ -32,12 +33,33 @@ export interface Project {
 
 export const projects: Project[] = [
   {
+    slug: 'cicada',
+    title: 'Cicada: Wildfire Detection Network',
+    tagline: 'A wildfire detection mesh network utilized in agricultural environments to detect field fires before they spread. Consists of sensor-filled nodes that communicate via LoRa (long range) signals and transmit the data to a dashboard that alerts first responders of the disaster',
+    role: 'Sensor Integration Engineer',
+    team: '7-person',
+    timeframe: 'August 2026 - Present',
+    category: 'Senior Design Project',
+    tech: ['C++', 'Zephyr RTOS', 'STM32', 'I2C', 'SPI', 'UART', 'CMake', 'Sensirion SEN66', 'NEO-6M GPS', 'Nix', 'Java', 'Spring Boot', 'Spring Data JPA', 'Hibernate', 'PostgreSQL', 'Maven',  'Python', 'GitLab CI/CD', 'LoRa', 'LoRaWAN', 'RadioLib'],
+    summary:
+      'A solar-powered LoRa mesh that watches Iowa farmland for field fires and pushes alerts to a dashboard before they spread. Each node is an STM32 B-L475E-IOT01A running Zephyr RTOS, reading a Sensirion SEN66 air-quality module over I2C and transmitting over a Semtech SX1272 radio to a LoRaWAN gateway, backed by a Spring Boot and PostgreSQL service. My work covers the sensor and power side of the node — which parts go in, how they are mounted, and how long the node survives in the field.',
+    highlights: [
+      'Writing Zephyr firmware in C++ to read each sensor on the node and check the readings against alarm thresholds.',
+      'Measuring node power consumption on the board and modeling how polling rate and battery size change how long a node lasts in the field.',
+      'Designing the physical sensor compartment so outside air reaches the sensors while rain, insects, and heat stay out.',
+      'Selecting sensors, batteries, and power components by weighing cost, accuracy, and outdoor temperature limits against each other.',
+      'Reading datasheets to verify the team\'s power and cost estimates before parts get ordered.',
+    ],
+    cover: cicadaCover,
+    coverFit: 'contain',
+  },
+  {
     slug: 'nerdmarket',
     title: 'NerdMarket: Collectibles Marketplace',
     tagline: 'Stock Market for trading cards with intuitive features such as AI card scanning, live community chats, scheduled notifications, price tracking, and collection binders',
     role: 'Backend Engineer',
-    team: '4-person (2 Backend, 2 Frontend)',
-    timeframe: 'Spring 2026 — COMS 3090, Iowa State',
+    team: '4-person',
+    timeframe: 'January 2026 - May 2026',
     category: 'Full-Stack Development',
     tech: ['Java', 'Spring Boot', 'MySQL', 'Maven', 'Spring Data JPA', 'Spring WebSockets', 'Hibernate', 'Lombok', 'Swagger/OpenAPI', 'GitLab CI/CD'],
     summary:
@@ -58,6 +80,8 @@ export const projects: Project[] = [
     title: 'Intelligent Robotic Navigation System',
     tagline: 'Roomba equipped with IR, PING, Bump, and Cliff sensors able to navigate autonomously through an object filled area and accurately detect height, width, depth, and distance of each object it sees in its path.',
     role: 'Embedded Software Engineer',
+    team: '4-person',
+    timeframe: 'January 2025 - May 2025',
     category: 'Embedded Systems & Design',
     tech: ['C', 'ARM Cortex-M4 MCU', 'UART', 'Python', 'ADC', 'Sensors', 'TCP sockets', 'Tkinter', 'Matplotlib'],
     summary:
@@ -76,7 +100,9 @@ export const projects: Project[] = [
     title: 'Pipelined RISC-V Processors',
     tagline: 'Three distinct processors built and tested. Single-Cycle, Software Scheduled, and Hardware Scheduled designs.',
     role: 'Hardware Design Engineer',
-    category: 'Computer Architecture',
+    team: '2-person',
+    timeframe: 'August 2025 - December 2025',
+    category: 'Computer Organization & Assembly-Level Programming',
     tech: ['Structural VHDL', 'Python Testing', 'RISC-V Assembly', 'ModelSim', 'RARS', 'Quartus'],
     summary:
       'RV32I processors built in structural VHDL from a single-cycle baseline up to a 5-stage pipeline with hardware forwarding and hazard detection. Verified cycle-accurate against the RARS reference simulator on mergesort, grendel, and control-flow benchmarks.',
@@ -106,9 +132,8 @@ export const projects: Project[] = [
     slug: 'brew-focus',
     title: 'Brew Focus',
     tagline: 'A retro pixel-art focus tracker whose timers run on a Go server — sessions keep brewing after the tab closes, survive restarts, and stay in sync live across every tab and device.',
-    role: 'Full-Stack Developer',
-    team: 'Solo',
-    category: 'Full-Stack Development',
+    role: 'Software Developer',
+    category: 'Web Development',
     tech: ['Go', 'Angular', 'TypeScript', 'SQLite', 'Docker', 'Server-Sent Events', 'Gin', 'GORM', 'JWT', 'Web Audio API', 'Vitest', 'GitHub Actions'],
     summary:
       'A full-stack productivity tracker styled like a pixel-art café. Focus timers run on the server instead of in the browser, so every tab and device signed in to an account watches the same clock over a Server-Sent Events stream. Tasks, custom rhythms, and an intention → breathe → focus → reflect loop feed streaks, a GitHub-style heatmap, a brew journal, and a café that fills with pixel décor — with rain, café, fireplace, and lo-fi ambience synthesized live in Web Audio.',
