@@ -110,6 +110,38 @@ export function ProjectDialog({ project, onRequestClose, onClosed }: ProjectDial
               </ol>
             </Block>
 
+            {project.sections?.map((section) => (
+              <Block key={section.title} title={section.title}>
+                {section.paragraphs?.map((paragraph) => (
+                  <p key={paragraph} className={styles.prose}>
+                    {paragraph}
+                  </p>
+                ))}
+                {section.images?.map((image) => (
+                  <figure key={image.alt} className={styles.figure}>
+                    <a href={image.src} target="_blank" rel="noreferrer">
+                      <img
+                        src={image.src}
+                        width={image.width}
+                        height={image.height}
+                        alt={image.alt}
+                        loading="lazy"
+                        decoding="async"
+                      />
+                    </a>
+                    <figcaption>{image.caption}</figcaption>
+                  </figure>
+                ))}
+                {section.items && (
+                  <ul className={styles.challenges}>
+                    {section.items.map((item) => (
+                      <li key={item}>{item}</li>
+                    ))}
+                  </ul>
+                )}
+              </Block>
+            ))}
+
             {project.challenges && (
               <Block title="Hard problems">
                 <ul className={styles.challenges}>

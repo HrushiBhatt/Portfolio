@@ -1,5 +1,8 @@
 import type { Picture } from '../lib/picture';
 import cicadaCover from '../assets/images/work/cicada/cover.png?lossless=true&responsive';
+import cicadaSystemOverview from '../assets/images/work/cicada/diagrams/system-overview.svg';
+import cicadaSystemDataPath from '../assets/images/work/cicada/diagrams/system-data-path.svg';
+import cicadaNodeComponents from '../assets/images/work/cicada/diagrams/node-components.svg';
 import nerdmarketCover from '../assets/images/work/nerdmarket/cover.png?responsive';
 import radarRobotCover from '../assets/images/work/radar-robot/cover.jpg?responsive';
 import riscvCover from '../assets/images/work/riscv-cpu/cover.png?responsive';
@@ -7,6 +10,7 @@ import brewFocusCover from '../assets/images/work/brew-focus/cover.png?responsiv
 
 export interface ProjectMetric { label: string; value: string }
 export interface ProjectLink   { label: string; url: string }
+export interface ProjectImage  { src: string; width: number; height: number; alt: string; caption: string }
 
 export interface Project {
   slug: string;
@@ -20,6 +24,8 @@ export interface Project {
   summary: string;
   highlights: string[];
   metrics?: ProjectMetric[];
+  /** Extra titled blocks shown between "What I built" and "Hard problems". */
+  sections?: { title: string; paragraphs?: string[]; images?: ProjectImage[]; items?: string[] }[];
   challenges?: string[];
   githubUrl?: string;
   /** Extra links shown next to GitHub in the project details. */
@@ -35,20 +41,94 @@ export const projects: Project[] = [
   {
     slug: 'cicada',
     title: 'Cicada: Wildfire Detection Network',
-    tagline: 'A wildfire detection mesh network utilized in agricultural environments to detect field fires before they spread. Consists of sensor-filled nodes that communicate via LoRa (long range) signals and transmit the data to a dashboard that alerts first responders of the disaster',
+    tagline: 'A solar-powered LoRa sensor mesh that watches farmland for field fires and alerts responders on a live map dashboard before a fire can spread.',
     role: 'Sensor Integration Engineer',
     team: '7-person',
     timeframe: 'August 2026 - Present',
     category: 'Senior Design Project',
-    tech: ['C++', 'Zephyr RTOS', 'STM32', 'I2C', 'SPI', 'UART', 'CMake', 'Sensirion SEN66', 'NEO-6M GPS', 'Nix', 'Java', 'Spring Boot', 'Spring Data JPA', 'Hibernate', 'PostgreSQL', 'Maven',  'Python', 'GitLab CI/CD', 'LoRa', 'LoRaWAN', 'RadioLib'],
+    tech: ['C++', 'Zephyr RTOS', 'STM32', 'I2C', 'UART', 'Python', 'SPI', 'CMake', 'Sensirion SEN66', 'NEO-6M GPS', 'Nix', 'LoRa', 'LoRaWAN', 'RadioLib', 'Java', 'Spring Boot', 'Spring Data JPA', 'Hibernate', 'PostgreSQL', 'Maven', 'GitLab CI/CD', 'React'],
     summary:
-      'A solar-powered LoRa mesh that watches Iowa farmland for field fires and pushes alerts to a dashboard before they spread. Each node is an STM32 B-L475E-IOT01A running Zephyr RTOS, reading a Sensirion SEN66 air-quality module over I2C and transmitting over a Semtech SX1272 radio to a LoRaWAN gateway, backed by a Spring Boot and PostgreSQL service. My work covers the sensor and power side of the node — which parts go in, how they are mounted, and how long the node survives in the field.',
+      'Cicada is a 7-person senior design project at Iowa State University: a network of solar-powered sensor nodes staked across a field. Each node samples the air and relays its readings hop by hop over LoRa radio to a gateway. The gateway feeds a Spring Boot and PostgreSQL backend, and a React dashboard maps every node with live readings and GPS-tagged fire alerts. As Sensor Integration Engineer, I worked with one teammate on everything between the sensor and the radio: sensor selection, Zephyr RTOS firmware, the power system, and the compartment that lets outside air reach the sensor.',
     highlights: [
-      'Writing Zephyr firmware in C++ to read each sensor on the node and check the readings against alarm thresholds.',
-      'Measuring node power consumption on the board and modeling how polling rate and battery size change how long a node lasts in the field.',
-      'Designing the physical sensor compartment so outside air reaches the sensors while rain, insects, and heat stay out.',
-      'Selecting sensors, batteries, and power components by weighing cost, accuracy, and outdoor temperature limits against each other.',
-      'Reading datasheets to verify the team\'s power and cost estimates before parts get ordered.',
+      'Firmware structure: small, testable C++ modules on Zephyr RTOS for the sensor interface (fixed-point samples), protocol (CRC checks and frame parsing with no hardware dependency), GPS, load-switch control, and detection.',
+      'Main loop: power on the air sensor, wait out its 30-second warm-up, read and validate the sample, cut power, run detection, transmit over LoRa, then sleep until an absolute deadline so the 15-minute schedule never drifts.',
+      'Testing: wrote 20 tests with Zephyr\'s ztest framework, run on the native simulator and an emulated Cortex-M3 with a mock sensor. Firmware development ran in parallel with procurement, so the code was ready to flash when parts arrived.',
+      'GPS: integrated over UART through Zephyr\'s NMEA driver. At setup the node waits for five settled fixes, saves the location to flash, and permanently cuts GPS power, since nodes are staked in place.',
+      'Power model: phase timers (GPS fix, sensor warm-up, read, transmit) stream CSV over serial. A Python model I wrote turns those timings into daily energy use and battery life across polling rates, and it set the 15-minute polling interval.',
+      'Power chain: a solar panel feeding a protected lithium-ion charger and 18650 cell, a 5 V boost bus, a 3.3 V regulator for the air sensor, and GPIO-controlled load switches that fully disconnect each sensor between uses.',
+      'Air-sensor compartment: designed to the manufacturer\'s airflow rules, with sealed intake and exhaust ducts sized for free area through insect mesh, rain-shedding louvers, a drain sump, and a sealed electronics bay above, so the sensor sits below every heat source.',
+      'Configuration: polling interval, warm-up time, alarm threshold, and GPS timeouts are Kconfig options, so the team can tune field behavior without code changes.',
+    ],
+    metrics: [
+      { label: 'Firmware unit tests', value: '20 of 20 passing' },
+      { label: 'Firmware footprint', value: '71 KB flash, 10.6 KB RAM' },
+      { label: 'Modeled battery life at 15-minute polling, before solar', value: 'About 40 days' },
+      { label: 'GPS energy, powered for one fix', value: 'About 3,000x lower' },
+      { label: 'Team LoRa link test at 0.2 miles', value: '94.3% packet delivery' },
+      { label: 'Prototype scope', value: '3 nodes, scaling to about 10' },
+    ],
+    sections: [
+      {
+        title: 'System architecture',
+        images: [
+          {
+            src: cicadaSystemOverview,
+            width: 700,
+            height: 396,
+            alt: 'Diagram of sensor nodes on posts in a field sending readings by LoRa radio to a gateway at the field edge, then over the internet to a server at Iowa State, which feeds a map dashboard and phone alerts.',
+            caption: 'System overview, from field sensors to the people alerted.',
+          },
+          {
+            src: cicadaSystemDataPath,
+            width: 700,
+            height: 742,
+            alt: 'Detailed diagram of the data path: nodes send LoRaWAN messages at 915 MHz to a MultiTech Conduit gateway with a radio receiver, network server, and MQTT broker. An Iowa State virtual machine pulls each message over SSH into a data log, and a dashboard backend decodes it for the web dashboard and alerts.',
+            caption: 'Data path from node to dashboard.',
+          },
+        ],
+        items: [
+          'Sensor node: STM32 microcontroller running Zephyr RTOS, Sensirion SEN66 air-quality sensor (particulates, VOC, NOx, temperature, humidity, CO2) over I2C, u-blox NEO-6M GPS over UART, and a LoRa radio.',
+          'Mesh: nodes exchange HELLO, DATA, ALERT, and ROUTE packets with acknowledgements and keep neighbor tables to relay readings to the gateway.',
+          'Gateway and backend: the LoRa gateway forwards uplinks to a server, where a Spring Boot API stores them in PostgreSQL.',
+          'Dashboard: a React frontend maps each node with live readings and GPS-tagged fire alerts.',
+        ],
+      },
+      {
+        title: 'Node design',
+        images: [
+          {
+            src: cicadaNodeComponents,
+            width: 700,
+            height: 760,
+            alt: 'Diagram of the prototype node. A power cap holds the solar input, TP4056 charger, 18650 battery, and 5 V boost. An electronics bay holds the STM32 board, SX1272 LoRa radio, NEO-6M GPS, 3.3 V regulator, and two TPS22918 load switches. A sensor bay below holds the SEN66, with outside air flowing in from both sides.',
+            caption: 'Prototype node: power cap, electronics bay, and sensor bay.',
+          },
+        ],
+      },
+      {
+        title: 'Key design decisions',
+        items: [
+          'Smoke signal: particulate matter (PM2.5) is primary, with VOC as corroboration. Low-cost particulate sensors have field evidence at real wildfires, while the VOC index is relative and can absorb slowly building smoke into its baseline.',
+          'Single air-quality module: replaced several separate sensors, reducing wiring, power rails, and firmware drivers per node.',
+          'One-time location fix: captured once and stored, because a GPS left running would drain the battery in under three days.',
+          'Configurable threshold: a configuration value, not a constant, because it will be calibrated against controlled smoke tests.',
+        ],
+      },
+      {
+        title: 'What\'s next',
+        items: [
+          'December 2026: three-node prototype demo with readings on the dashboard.',
+          'February 2027: bench current measurements to confirm the power model within 20%.',
+          'March 2027: controlled smoke tests targeting detection in at least 8 of 10 trials with under one false alarm per node per week.',
+          'April 2027: about ten nodes running for seven days in a real field with solar charging.',
+        ],
+      },
+    ],
+    challenges: [
+      'Battery life is set by the air sensor: it needs 30 seconds at about 90 mA before a particulate reading is valid, so every sample costs the same energy no matter how fast the code runs. Sleeping the microcontroller saves almost nothing. How often the sensor wakes is the only lever that matters, so the model set the polling rate.',
+      'Switched-off sensors can stay powered: I2C pull-ups on the always-on supply feed current into the sensor through its protection diodes, so it never fully turns off. The pull-ups moved to the switched side of the load switch, and the microcontroller\'s GPS transmit line was left unconnected for the same reason.',
+      'Indoor sensor, outdoor job: the air sensor is rated for indoor air and a -10 to 50 °C range, and sun-heated air inside a box skews readings and humidity compensation. That shaped the compartment (sensor below the electronics, intake shielded from heat) and when nodes can run.',
+      'Power estimate errors: before parts were ordered, a datasheet review found the air sensor\'s current listed about 1,400x too low and its warm-up cost, the largest energy load on the node, not modeled at all.',
     ],
     cover: cicadaCover,
     coverFit: 'contain',

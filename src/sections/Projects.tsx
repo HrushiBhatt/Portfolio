@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Section } from '../components/Section';
 import { ProjectCard } from '../components/ProjectCard';
 import { ProjectDialog } from '../components/ProjectDialog';
@@ -65,8 +65,16 @@ export function Projects() {
     return () => ScrollTrigger.removeEventListener('refreshInit', layout);
   }, list);
 
+  // A link like /cicada (or the older /#cicada) opens that project on arrival.
+  useEffect(() => {
+    const slug = location.pathname.replaceAll('/', '') || location.hash.slice(1);
+    const linked = projects.find((project) => project.slug === slug);
+    if (linked) morph(() => setActive(linked), null);
+  }, []);
+
   const open = (project: Project, source: HTMLElement | null) => {
     cover.current = source;
+    history.replaceState(null, '', `/${project.slug}`);
     morph(() => setActive(project), source);
   };
 
@@ -91,7 +99,10 @@ export function Projects() {
       <ProjectDialog
         project={active}
         onRequestClose={() => morph(() => setActive(null), null, cover.current)}
-        onClosed={() => setActive(null)}
+        onClosed={() => {
+          setActive(null);
+          history.replaceState(null, '', '/');
+        }}
       />
     </Section>
   );

@@ -204,6 +204,30 @@
   color: var(--orange);
 }
 
+.figure {
+  margin: 0 0 18px;
+}
+
+.figure a {
+  display: block;
+  cursor: zoom-in;
+}
+
+.figure img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-sm);
+}
+
+.figure figcaption {
+  margin-top: 8px;
+  font-size: 12.5px;
+  line-height: 1.6;
+  color: var(--muted);
+}
+
 .actions {
   display: flex;
   flex-wrap: wrap;
