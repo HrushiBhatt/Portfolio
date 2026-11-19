@@ -23,7 +23,7 @@ export const experience: ExperienceItem[] = [
     icon: 'layers',
     what: 'Building a full-stack internal platform that helps business teams evaluate on-device apps and services, working across the backend, the interface, and deployment.',
     impact: 'Gives teams a faster, lower-cost way to evaluate devices without physical hardware.',
-    stack: ['Python', 'Flask', 'PostgreSQL', 'Redis', 'React.js', 'TypeScript', 'Docker', 'Google Cloud Platform'],
+    stack: ['Python', 'Flask', 'React', 'TypeScript', 'PostgreSQL', 'Docker', 'Google Cloud Platform', 'Codex', 'Copilot'],
   },
   {
     title: 'Technical Product Operations Intern',
@@ -33,7 +33,7 @@ export const experience: ExperienceItem[] = [
     icon: 'sliders',
     what: 'Worked on improving the iOS to Android data transfer experience, evaluated AI features ahead of release, and automated internal reporting.',
     impact: 'Improved reliability, reduced manual testing, and turned research into clear product priorities.',
-    stack: ['Codex', 'Vertex AI', 'BigQuery', 'Dataform'],
+    stack: ['OpenAI', 'Copilot', 'Figma', 'Android SDK', 'ADB', 'Fastboot', 'LLMs', 'Roadmaps', 'PRDs', 'BigQuery'],
   },
   {
     title: 'IT Student Technician',
